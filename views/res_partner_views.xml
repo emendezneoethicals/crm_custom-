@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_other_info_form" model="ir.ui.view">
+        <field name="name">res.partner.other.info</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <page name="internal_notes" position="after">
+                <page name="other_info" string="Otra Información">
+                    <group>
+                        <group col="2">
+                            <field name="specialty_id"/>
+                            <field name="collegial_number"/>
+                            <field name="clinic_name"/>
+                            <field name="clinic_address"/>
+                            <field name="clinic_turn_id"/>
+                            <field name="clinic_department"/>
+                            <field name="clinic_municipality"/>
+                            <field name="clinic_schedule"/>
+                            <field name="secretary_name"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>

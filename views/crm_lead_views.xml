@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="crm_lead_view_form_medical_fields" model="ir.ui.view">
+        <field name="name">crm.lead.form.medical.fields</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="specialty_id" placeholder="Especialidad"/>
+                <field name="collegial_number" placeholder="Número de Colegiado"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_form_clinic_info" model="ir.ui.view">
+        <field name="name">crm.lead.form.medical.visitors</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="clinic_info" string="Información de la Clínica">
+                    <group>
+                        <group string="Datos Generales">
+                            <field name="clinic_name" placeholder="Nombre de la clínica"/>
+                            <field name="clinic_address" placeholder="Dirección"/>
+                            <field name="clinic_turn_id" placeholder="Gira"/>
+                            <field name="clinic_department" placeholder="Departamento"/>
+                            <field name="clinic_municipality" placeholder="Municipio"/>
+                        </group>
+                        <group string="Información Adicional">
+                            <field name="clinic_schedule" placeholder="Horario de atención"/>
+                            <field name="secretary_name" placeholder="Nombre de la secretaria"/>
+                            <field name="clinic_priority" widget="priority" string="Clasificación"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_model_list_turn" model="ir.ui.view">
+        <field name="name">turn.list</field>
+        <field name="model">turn</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="location_id"/>
+            </list>
+        </field>
+    </record>
+
+
+
+     
+    <record id="view_turn_form" model="ir.ui.view">
+        <field name="name">turn.specialty.form</field>
+        <field name="model">turn</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de la Gira">
+                <sheet>
+                    <group>
+                        <group string="Información Principal">
+                            <group>
+                                <field name="name" string="Nombre"/>
+                                <field name="description" string="Descripción"/>
+                            </group>
+                        </group>
+                        <group string="Fechas">
+                            <group>
+                                <field name="start_date" string="Fecha de Inicio"/>
+                                <field name="end_date" string="Fecha de Fin"/>
+                            </group>
+                        </group>
+                    </group>
+                    <group string="Ubicación" col="2">
+                        <group>
+                            <field name="location_id" string="Ubicación"/>
+                            <field name="country_id" string="País" invisible="1"/>
+                            <field name="company_id" string="Compañía" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_turn" model="ir.actions.act_window">
+        <field name="name">Gira</field>
+        <field name="res_model">turn</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="menu_turn" model="ir.ui.menu">
+        <field name="name">Administrar Giras</field>
+        <field name="parent_id" ref="crm.crm_menu_config"/>
+        <field name="action" ref="action_turn"/>
+        <field name="sequence">23</field> 
+    </record>
+    
+</odoo>
