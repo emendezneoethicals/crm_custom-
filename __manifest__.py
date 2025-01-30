@@ -8,6 +8,7 @@
     'depends': ['crm','base', 'contacts'],
     'data': [
         'security/ir.model.access.csv',
+        'views/municipality_views.xml',
         'views/crm_lead_views.xml',
         'views/specialty_views.xml',
         'views/turn_views.xml',

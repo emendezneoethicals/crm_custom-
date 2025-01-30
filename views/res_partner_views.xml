@@ -9,15 +9,17 @@
                 <page name="other_info" string="Otra Información">
                     <group>
                         <group col="2">
-                            <field name="specialty_id"/>
-                            <field name="collegial_number"/>
-                            <field name="clinic_name"/>
-                            <field name="clinic_address"/>
-                            <field name="clinic_turn_id"/>
-                            <field name="clinic_department"/>
-                            <field name="clinic_municipality"/>
-                            <field name="clinic_schedule"/>
-                            <field name="secretary_name"/>
+                            <field name="specialty_id" placeholder="Especialidad"/>
+                            <field name="collegial_number" placeholder="Número de Colegiado"/>
+                            <field name="clinic_name" placeholder="Nombre de la clínica"/>
+                            <field name="clinic_address" placeholder="Dirección"/>
+                            <field name="clinic_turn_id" placeholder="Gira"/>
+                        </group>
+                        <group col ="2">
+                            <field name="clinic_department" placeholder="Departamento"/>
+                            <field name="clinic_municipality" placeholder="Municipio"/>
+                            <field name="clinic_schedule" placeholder="Horario de atención"/>
+                            <field name="secretary_name" placeholder="Nombre de la secretaria"/>
                         </group>
                     </group>
                 </page>

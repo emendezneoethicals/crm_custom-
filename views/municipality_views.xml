@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <record id="view_municipality_list" model="ir.ui.view">
+            <field name="name">municipality.list.view</field>
+            <field name="model">municipality</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="state_id"/>
+                </list>
+            </field>
+        </record>
+
+         
+
+
+       
+        <record id="view_municipality_form" model="ir.ui.view">
+            <field name="name">municipality.form.view</field>
+            <field name="model">municipality</field>
+            <field name="arch" type="xml">
+                <form string="Municipio">
+                    <sheet>
+                        <group>
+                            <field name="country_id" string="País" invisible="1"/>
+                            <field name="company_id" string="Compañía" invisible="1"/>
+                            <field name="name"/>
+                            <field name="state_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+    <record id="action_municipality" model="ir.actions.act_window">
+        <field name="name">Municipio</field>
+        <field name="res_model">municipality</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="menu_municipality" model="ir.ui.menu">
+        <field name="name">Administrar Municipios</field>
+        <field name="parent_id" ref="crm.crm_menu_config"/>
+        <field name="action" ref="action_municipality"/>
+        <field name="sequence">24</field> 
+    </record>
+    
+</odoo>
