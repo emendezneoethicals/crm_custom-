@@ -5,6 +5,7 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
+
             <!-- ocultar campo ingreso esperado -->
             <xpath expr="//field[@name='expected_revenue']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -21,7 +22,7 @@
             <xpath expr="//div[@id='probability']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-
+            <!-- ocutar span con la palabra at -->
             <xpath expr="//span[@class='oe_grey p-2' and @groups='!crm.group_use_recurring_revenues']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
