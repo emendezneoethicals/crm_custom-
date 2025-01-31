@@ -4,3 +4,4 @@ from . import crm_lead
 from . import specialty
 from . import turn
 from . import municipality
+from . import product_template

@@ -23,41 +23,54 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <!-- ocutar span con la palabra at -->
-            <xpath expr="//span[@class='oe_grey p-2' and @groups='!crm.group_use_recurring_revenues']" position="attributes">
+            <xpath expr="//span[hasclass('oe_grey', 'p-2') and @groups='!crm.group_use_recurring_revenues']" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </xpath>
+              <!-- Ocultar la pestaña "Extra Information" -->
+            <xpath expr="//page[@name='lead']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+             <!-- cambiar etiqueta notas internas - ultima paltica -->            
+            <xpath expr="//page[@name='internal_notes']" position="attributes">
+                <attribute name="string">Última Plática</attribute>
             </xpath>
 
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="specialty_id" placeholder="Especialidad"/>
+                <field name="specialty_id" placeholder="Especialidad" options="{'no_create': True}"/>
                 <field name="collegial_number" placeholder="Número de Colegiado"/>
             </xpath>
-        </field>
-    </record>
-
-    <record id="crm_lead_view_form_clinic_info" model="ir.ui.view">
-        <field name="name">crm.lead.form.medical.visitors</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
-        <field name="arch" type="xml">
+            <!-- pestañana info clinica -->
             <xpath expr="//notebook" position="inside">
                 <page name="clinic_info" string="Información de la Clínica">
                     <group>
                         <group string="Datos Generales">
                             <field name="clinic_name" placeholder="Nombre de la clínica"/>
                             <field name="clinic_address" placeholder="Dirección"/>
-                            <field name="clinic_turn_id" placeholder="Gira"/>
+                            <field name="clinic_turn_id" placeholder="Gira" options="{'no_create': True}"/>
                             <field name="clinic_department" placeholder="Departamento"/>
-                            <field name="clinic_municipality" placeholder="Municipio"/>
+                            <field name="clinic_municipality" placeholder="Municipio" options="{'no_create': True}"/>
                         </group>
                         
                         <group string="Información Adicional">
+                            <field name="clinic_phone" placeholder="Teléfono de la clinica"/>
                             <field name="clinic_schedule" placeholder="Horario de atención"/>
                             <field name="secretary_name" placeholder="Nombre de la secretaria"/>
+                            <field name="secretary_phone" placeholder="Teléfono  de la secretaria"/>
                             <field name="clinic_priority" widget="priority" string="Clasificación"/>
                         </group>
+                    </group>
+                    <group string =" ">
+                            <group string ="Productos comprados">
+                                <field name="purchased_product_ids" options="{'no_create': True}"  widget="many2many_tags"/>
+                            </group>
+                            <group string ="Productos no comprados">
+                            <field name="not_purchased_product_ids" options="{'no_create': True}"  widget="many2many_tags"/>
+                            </group>
                     </group>
                 </page>
             </xpath>
         </field>
     </record>
+
+   
 </odoo>

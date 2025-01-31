@@ -15,7 +15,9 @@ class ResPartner(models.Model):
     clinic_municipality = fields.Many2one('municipality', string="Municipio",compute="_compute_clinic_municipality_leads",inverse="_inverse_clinic_municipality_leads",store=True, readonly=False)
     clinic_schedule = fields.Text(string="Horario de atención")
     secretary_name = fields.Char(string="Nombre Secretaria")
-
+    clinic_phone = fields.Char(string= "Teléfono de la Clinica")
+    secretary_phone = fields.Char(string= "Teléfono de la Secretaria")
+    product_ids = fields.Many2many('product.template','partner_product_rel','partner_id','product_id',string='Productos')
 
     @api.depends('crm_lead_ids.specialty_id')
     def _compute_specialty_leads(self):
@@ -56,3 +58,18 @@ class ResPartner(models.Model):
         for partner in self:
             for lead in partner.crm_lead_ids:
                 lead.clinic_municipality = partner.clinic_municipality
+
+    def write(self, vals):
+        """Sincroniza productos en CRM cuando se actualizan en Partner."""
+        if self.env.context.get('skip_sync'):
+            return super(ResPartner, self).write(vals)
+
+        res = super(ResPartner, self).write(vals)
+        if 'product_ids' in vals:
+            for partner in self:
+                for lead in partner.crm_lead_ids:
+                    # Evitar actualizar si los valores ya son iguales
+                    if set(lead.product_ids.ids) != set(partner.product_ids.ids):
+                        # evitar actualización recursiva con with_context
+                        lead.with_context(skip_sync=True).product_ids = partner.product_ids
+        return res

@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_specialty,access_res_specialty,model_res_specialty,base.group_erp_manager,1,1,1,1
-access_turn,access_turn,model_turn,base.group_erp_manager,1,1,1,1
-access_municipality,access_municipality,model_municipality,base.group_erp_manager,1,1,1,1
+access_res_specialty,pharmaceutical_sales,model_res_specialty,base.group_erp_manager,1,1,1,0
+access_turn,pharmaceutical_sales,model_turn,base.group_erp_manager,1,1,1,0
+access_municipality,pharmaceutical_sales,model_municipality,base.group_erp_manager,1,1,1,0

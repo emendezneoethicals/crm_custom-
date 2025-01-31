@@ -9,17 +9,22 @@
                 <page name="other_info" string="Otra Información">
                     <group>
                         <group col="2">
-                            <field name="specialty_id" placeholder="Especialidad"/>
+                            <field name="specialty_id" placeholder="Especialidad" options="{'no_create': True}"/>
                             <field name="collegial_number" placeholder="Número de Colegiado"/>
                             <field name="clinic_name" placeholder="Nombre de la clínica"/>
                             <field name="clinic_address" placeholder="Dirección"/>
-                            <field name="clinic_turn_id" placeholder="Gira"/>
+                            <field name="clinic_turn_id" placeholder="Gira" options="{'no_create': True}"/>
+                            <field name="clinic_phone" placeholder="Teléfono de la clinica"/>
                         </group>
                         <group col ="2">
                             <field name="clinic_department" placeholder="Departamento"/>
-                            <field name="clinic_municipality" placeholder="Municipio"/>
+                            <field name="clinic_municipality" placeholder="Municipio" options="{'no_create': True}"/>
                             <field name="clinic_schedule" placeholder="Horario de atención"/>
                             <field name="secretary_name" placeholder="Nombre de la secretaria"/>
+                            <field name="secretary_phone" placeholder="Teléfono  de la secretaria"/>
+                        </group>
+                        <group string ="Productos seleccionados">
+                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
                         </group>
                     </group>
                 </page>

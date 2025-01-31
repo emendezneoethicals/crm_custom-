@@ -11,3 +11,4 @@ class Turn(models.Model):
     company_id = fields.Many2one('res.company',string='Compañía',default=lambda self: self.env.company)
     country_id = fields.Many2one('res.country',string='País de la Compañía',related='company_id.country_id',store=True,readonly=True)
     location_id = fields.Many2one('res.country.state', string='Destino', domain="[('country_id', '=', country_id)]")
+    adrres = fields.Text(string ="Dirección exacta")

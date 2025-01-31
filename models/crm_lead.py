@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 import logging
+from odoo.exceptions import ValidationError
 
-_logger = logging.getLogger(__name__)
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -16,6 +16,10 @@ class CrmLead(models.Model):
     clinic_municipality = fields.Many2one('municipality', string="Municipio", compute="_compute_clinic_municipality",inverse="_inverse_clinic_municipality",store=True, readonly=False)
     clinic_schedule = fields.Text(string="Horario de atención", related="partner_id.clinic_schedule", store=True, readonly=False)
     secretary_name = fields.Char(string="Nombre Secretaria", related="partner_id.secretary_name", store=True, readonly=False)
+    clinic_phone = fields.Char(string= "Teléfono de la Clinica",related="partner_id.clinic_phone",store=True, readonly=False)
+    secretary_phone = fields.Char(string= "Teléfono de la Secretaria ",related="partner_id.secretary_phone",store=True, readonly=False)
+    purchased_product_ids = fields.Many2many('product.template', 'crm_lead_purchased_product_rel', 'lead_id', 'product_id',string="Productos Comprados", store=True,readonly=True)
+    not_purchased_product_ids = fields.Many2many('product.template', 'crm_lead_not_purchased_product_rel', 'lead_id', 'product_id',string="Productos No Comprados", store=True,readonly=True)
     clinic_priority = fields.Selection(
         [(str(i), f'{i} Estrella{"s" if i > 1 else ""}') for i in range(0, 6)],
         string="Clasificación",
@@ -60,3 +64,73 @@ class CrmLead(models.Model):
         for lead in self:
             if lead.partner_id and lead.clinic_municipality:
                 lead.partner_id.clinic_municipality = lead.clinic_municipality
+
+    @api.depends('partner_id.product_ids')
+    def _compute_products_from_partner(self):
+        """Obtiene los productos desde el partner automáticamente."""
+        for lead in self:
+            if lead.partner_id:
+                lead.product_ids = lead.partner_id.product_ids
+
+   
+    
+    def write(self, vals):
+        """
+        Bloquea el cambio de estado si ciertos campos no están llenos.
+        """
+        # Detectar si se está intentando cambiar de estado (stage_id)
+        if 'stage_id' in vals:
+            for lead in self:
+                
+                required_fields = ['not_purchased_product_ids','clinic_name', 'clinic_turn_id', 'clinic_municipality','partner_id']
+
+                # Verificar si algún campo obligatorio está vacío
+                missing_fields = [field for field in required_fields if not lead[field]]
+                
+                if missing_fields:
+                    raise ValidationError(
+                        "No puedes cambiar de estado hasta completar los siguientes campos:\n" +
+                        "\n".join(self._fields[field].string for field in missing_fields)
+                    )
+
+        return super(CrmLead, self).write(vals)
+
+    @api.model
+    def create(self, vals):
+        """ 
+        Al crear una nueva oportunidad, asigna los productos comprados y no comprados según la especialidad del médico.
+        """
+        lead = super(CrmLead, self).create(vals)
+
+        if lead.partner_id and lead.specialty_id:
+            lead._set_initial_purchased_products()
+        return lead
+
+    def _set_initial_purchased_products(self):
+        """ 
+        Calcula los productos comprados/no comprados solo al crear una oportunidad nueva.
+        """
+        for lead in self:
+            if not lead.partner_id or not lead.specialty_id:
+                continue
+
+            # Buscar productos de la especialidad del médico
+            specialty_products = self.env['product.template'].search([
+                ('specialty_ids', 'in', [lead.specialty_id.id])
+            ])
+
+            # Buscar los productos que ya ha comprado
+            purchased_products = self.env['sale.order.line'].search([
+                ('order_id.partner_id', '=', lead.partner_id.id),
+                ('product_id.product_tmpl_id', 'in', specialty_products.ids),
+                ('order_id.state', 'in', ['sale', 'done'])  # Solo ventas confirmadas
+            ]).mapped('product_id.product_tmpl_id')
+
+            # Determinar los productos no comprados
+            not_purchased_products = specialty_products - purchased_products
+
+            # Guardar los datos en la oportunidad sin volver a calcular después
+            lead.write({
+                'purchased_product_ids': [(6, 0, purchased_products.ids)],
+                'not_purchased_product_ids': [(6, 0, not_purchased_products.ids)],
+            })
