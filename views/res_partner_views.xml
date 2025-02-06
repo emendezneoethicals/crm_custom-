@@ -5,7 +5,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <page name="internal_notes" position="after">
+            <xpath expr="//page[@name='internal_notes']" position="after">
                 <page name="other_info" string="Otra Información">
                     <group>
                         <group col="2">
@@ -14,22 +14,31 @@
                             <field name="clinic_name" placeholder="Nombre de la clínica"/>
                             <field name="clinic_address" placeholder="Dirección"/>
                             <field name="clinic_turn_id" placeholder="Gira" options="{'no_create': True}"/>
-                            <field name="clinic_phone" placeholder="Teléfono de la clinica"/>
+                            <field name="clinic_phone" placeholder="Teléfono de la clínica"/>
                         </group>
-                        <group col ="2">
+                        <group col="2">
                             <field name="clinic_department" placeholder="Departamento"/>
                             <field name="clinic_municipality" placeholder="Municipio" options="{'no_create': True}"/>
                             <field name="clinic_schedule" placeholder="Horario de atención"/>
                             <field name="secretary_name" placeholder="Nombre de la secretaria"/>
-                            <field name="secretary_phone" placeholder="Teléfono  de la secretaria"/>
+                            <field name="secretary_phone" placeholder="Teléfono de la secretaria"/>
                         </group>
-                        <group string ="Productos seleccionados">
-                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <div class="oe_button_box" style="text-align:right; margin-bottom:10px;">
+                            <button name="action_update_purchased_products" string="Actualizar Productos Vendidos" type="object" class="oe_highlight"/>
+                        </div>
+                    </group>
+                    <group>
+                        <group string="Productos comprados">
+                            <field name="purchased_product_ids" options="{'no_create': True}" widget="many2many_tags"/>
+                        </group>
+                        <group string="Productos no comprados">
+                            <field name="not_purchased_product_ids" options="{'no_create': True}" widget="many2many_tags"/>
                         </group>
                     </group>
                 </page>
-            </page>
+            </xpath>
         </field>
     </record>
-
 </odoo>
